@@ -1,3 +1,8 @@
+Here’s a complete, ready‑to‑paste index.html that you can drop into your GitHub repo. It includes your full design, plus the Google Sheets integration via your Apps Script URL.
+
+Replace the existing file in the repo with this entire code:
+
+xml
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -282,8 +287,7 @@
     <div class="progress-label" id="progressLabel">0% complete</div>
   </div>
 
-  <form id="zackForm" onsubmit="handleSubmit(event)">
-
+  <form id="zackForm">
     <!-- SECTION 1: Identity -->
     <div class="card">
       <div class="section-label">
@@ -606,40 +610,31 @@
     container.appendChild(ta);
   }
 
-  // Form submission
-  function handleSubmit(e) {
+  // Google Sheets integration via Apps Script
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbyHKB1rmSkHjfQAqU2ucXGGh9F8QjsxlfWlEAfdvtZ1MIPfplJSNEJ41tvZPO_JhHBmcg/exec';
+  const form = document.getElementById('zackForm');
+
+  form.addEventListener('submit', function(e) {
     e.preventDefault();
-    const form = document.getElementById('zackForm');
+
     const data = new FormData(form);
-    const obj  = {};
-    data.forEach((v, k) => {
-      if (obj[k]) {
-        obj[k] = [].concat(obj[k], v);
-      } else {
-        obj[k] = v;
-      }
+
+    fetch(scriptURL, {
+      method: 'POST',
+      body: data
+    })
+    .then(response => response.json())
+    .then(result => {
+      console.log('Success:', result);
+      form.style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+    .catch(error => {
+      console.error('Error!', error);
+      alert('There was an error submitting your onboarding. Please try again.');
     });
-
-    // In production: POST to your backend or Formspree
-    // fetch('https://formspree.io/f/YOUR_FORM_ID', {
-    //   method: 'POST',
-    //   headers: {'Content-Type': 'application/json'},
-    //   body: JSON.stringify(obj)
-    // });
-
-    // For now: download as JSON so you can read it
-    const blob = new Blob([JSON.stringify(obj, null, 2)],
-                          {type: 'application/json'});
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href = url;
-    a.download = `zack_onboarding_${obj.full_name || 'client'}.json`;
-    a.click();
-
-    form.style.display = 'none';
-    document.getElementById('successMsg').style.display = 'block';
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  }
+  });
 </script>
 </body>
 </html>
