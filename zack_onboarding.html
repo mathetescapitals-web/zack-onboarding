@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zack.ai — Client Onboarding</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1e293b;
+    min-height: 100vh;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+    padding: 60px 24px;
+    text-align: center;
+    color: white;
+  }
+
+  .hero .badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #93c5fd;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+
+  .hero h1 span { color: #60a5fa; }
+
+  .hero p {
+    font-size: 18px;
+    color: #94a3b8;
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .form-wrap {
+    max-width: 720px;
+    margin: -32px auto 60px;
+    padding: 0 16px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .section-num {
+    width: 32px; height: 32px;
+    background: #1e3a5f;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .section-sub {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 2px;
+  }
+
+  .field { margin-bottom: 24px; }
+
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+  }
+
+  .hint {
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: 400;
+    margin-left: 4px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="url"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 15px;
+    color: #1e293b;
+    background: #fafafa;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+    background: white;
+  }
+
+  textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
+
+  .example-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 3px solid #3b82f6;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #475569;
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+
+  .example-box strong { color: #1e3a5f; display: block; margin-bottom: 4px; }
+
+  .submit-wrap { text-align: center; padding: 8px 0 0; }
+
+  .submit-btn {
+    background: linear-gradient(135deg, #1e3a5f, #2563eb);
+    color: white;
+    border: none;
+    padding: 16px 48px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    max-width: 400px;
+    transition: opacity 0.2s, transform 0.1s;
+    letter-spacing: 0.3px;
+  }
+
+  .submit-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+
+  .submit-note {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-top: 12px;
+  }
+
+  .progress {
+    background: white;
+    border-radius: 12px;
+    padding: 16px 24px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #1e3a5f, #3b82f6);
+    border-radius: 100px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .progress-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    white-space: nowrap;
+  }
+
+  .voice-examples { display: flex; flex-direction: column; gap: 12px; }
+
+  .voice-entry {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .voice-entry textarea { min-height: 80px; }
+
+  .add-btn {
+    background: #f1f5f9;
+    border: 1.5px dashed #cbd5e1;
+    color: #64748b;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 8px;
+    transition: all 0.2s;
+  }
+
+  .add-btn:hover { background: #e2e8f0; border-color: #94a3b8; }
+
+  .success {
+    display: none;
+    text-align: center;
+    padding: 60px 24px;
+  }
+
+  .success .check {
+    width: 72px; height: 72px;
+    background: #dcfce7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 32px;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Zack.ai Onboarding</div>
+  <h1>Let's build your<br><span>personal outreach agent</span></h1>
+  <p>Fill this in carefully — the quality of your answers directly determines how well Zack sounds like you. Takes 20–30 minutes.</p>
+</div>
+
+<div class="form-wrap">
+
+  <div class="progress">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0% complete</div>
+  </div>
+
+  <form id="zackForm" onsubmit="handleSubmit(event)">
+
+    <!-- SECTION 1: Identity -->
+    <div class="card">
+      <div class="section-label">
+        <div class="section-num">1</div>
+        <div>
+          <div class="section-title">Who You Are</div>
+          <div class="section-sub">Basic identity — how you show up in the world</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label>Full Name <span class="hint">*</span></label>
+          <input type="text" name="full_name" placeholder="e.g. Dayo Adeyemi" required>
+        </div>
+        <div class="field">
+          <label>Your Title / Role</label>
+          <input type="text" name="title" placeholder="e.g. Founder & CEO">
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label>Your Company / Brand</label>
+          <input type="text" name="company" placeholder="e.g. Mathetes">
+        </div>
+        <div class="field">
+          <label>Your LinkedIn URL <span class="hint">*</span></label>
+          <input type="url" name="linkedin" placeholder="https://linkedin.com/in/..." required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>What do you do in ONE sentence?
+          <span class="hint">Not your job title — what you actually do for people</span>
+        </label>
+        <input type="text" name="one_liner"
+          placeholder="e.g. I help African startup founders become investable before they approach capital">
+      </div>
+
+      <div class="field">
+        <label>What makes you different from others doing similar work?</label>
+        <textarea name="differentiator"
+          placeholder="What's the thing that makes your approach unique?"></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 2: Ideal Client -->
+    <div class="card">
+      <div class="section-label">
+        <div class="section-num">2</div>
+        <div>
+          <div class="section-title">Your Ideal Client</div>
+          <div class="section-sub">The more specific you are, the better Zack targets</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Describe your perfect client in detail
+          <span class="hint">Industry, role, stage, geography, mindset</span>
+        </label>
+        <textarea name="ideal_client"
+          placeholder="e.g. African startup founders at pre-seed or seed stage, raising their first institutional round, based in Nigeria, Kenya or Ghana, with a working product and some early traction but struggling to structure a compelling investor narrative..."
+          style="min-height:140px"></textarea>
+      </div>
+
+      <div class="field">
+        <label>What problem are they in when they first find you?</label>
+        <textarea name="client_problem"
+          placeholder="What's happening in their world that makes them reach out to someone like you?"></textarea>
+      </div>
+
+      <div class="field">
+        <label>What words or phrases do THEY use to describe their situation?
+          <span class="hint">Not your words — their words. What do they say in DMs or calls?</span>
+        </label>
+        <textarea name="client_language"
+          placeholder="e.g. 'I keep getting rejected by investors', 'I don't know how to tell my story', 'I've been told my financials are a mess'..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Are you targeting founders, investors, or both?</label>
+        <select name="target_type">
+          <option value="both">Both founders and investors</option>
+          <option value="founders">Founders only</option>
+          <option value="investors">Investors only</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Target geography
+          <span class="hint">Leave blank for global</span>
+        </label>
+        <input type="text" name="geography"
+          placeholder="e.g. Nigeria, Kenya, Ghana, South Africa, Africa broadly">
+      </div>
+    </div>
+
+    <!-- SECTION 3: Voice -->
+    <div class="card">
+      <div class="section-label">
+        <div class="section-num">3</div>
+        <div>
+          <div class="section-title">Your Voice</div>
+          <div class="section-sub">This is the most important section — Zack will sound exactly like this</div>
+        </div>
+      </div>
+
+      <div class="example-box">
+        <strong>Why this matters</strong>
+        The quality of your voice examples determines everything. A bad example = Zack sounds generic.
+        A great example = Zack sounds exactly like you. Take your time here.
+      </div>
+
+      <div class="field">
+        <label>Paste 3–5 LinkedIn messages you've sent that you're proud of
+          <span class="hint">Real messages you've sent that got great responses</span>
+        </label>
+        <div class="voice-examples" id="messageExamples">
+          <textarea name="message_example_1" placeholder="Paste a message you've sent that sounds most like you..."></textarea>
+          <textarea name="message_example_2" placeholder="Another one..."></textarea>
+          <textarea name="message_example_3" placeholder="One more..."></textarea>
+        </div>
+        <button type="button" class="add-btn" onclick="addExample('messageExamples','message_example')">+ Add another message example</button>
+      </div>
+
+      <div class="field">
+        <label>Paste 2–3 LinkedIn posts that sound most like you</label>
+        <div class="voice-examples" id="postExamples">
+          <textarea name="post_example_1" placeholder="Paste a post you've written..."></textarea>
+          <textarea name="post_example_2" placeholder="Another one..."></textarea>
+        </div>
+        <button type="button" class="add-btn" onclick="addExample('postExamples','post_example')">+ Add another post</button>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label>Phrases you NEVER use
+            <span class="hint">Words that feel wrong when you read them</span>
+          </label>
+          <textarea name="never_say"
+            placeholder="e.g. 'Hope this finds you well', 'synergies', 'leverage', 'circle back'..."
+            style="min-height:100px"></textarea>
+        </div>
+        <div class="field">
+          <label>Phrases you always use
+            <span class="hint">Your natural expressions</span>
+          </label>
+          <textarea name="always_say"
+            placeholder="e.g. 'genuinely curious', 'feels like a gap', 'worth a conversation'..."
+            style="min-height:100px"></textarea>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label>Tone</label>
+          <select name="tone">
+            <option>Warm and direct</option>
+            <option>Professional but human</option>
+            <option>Casual and conversational</option>
+            <option>Sharp and punchy</option>
+            <option>Thoughtful and reflective</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Do you use humour?</label>
+          <select name="humour">
+            <option value="subtle">Subtle / occasionally</option>
+            <option value="yes">Yes, naturally</option>
+            <option value="no">No, keep it straight</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>How do you typically greet someone for the first time?
+          <span class="hint">Write an example opening line</span>
+        </label>
+        <input type="text" name="greeting_example"
+          placeholder="e.g. 'Hey David,' or 'Hello Amara,' or 'Hi there,'">
+      </div>
+    </div>
+
+    <!-- SECTION 4: Goals -->
+    <div class="card">
+      <div class="section-label">
+        <div class="section-num">4</div>
+        <div>
+          <div class="section-title">What You Want Zack to Do</div>
+          <div class="section-sub">Goals and outcomes</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>What's the primary goal of Zack's outreach?</label>
+        <select name="primary_goal">
+          <option>Start conversations that lead to discovery calls</option>
+          <option>Warm up cold connections before pitching</option>
+          <option>Build relationships with investors</option>
+          <option>Generate leads for my service/product</option>
+          <option>Grow my network in a specific community</option>
+          <option>Stay top of mind with existing contacts</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>How many conversations per week would make this worth it?</label>
+        <select name="conversation_goal">
+          <option>3–5 new conversations per week</option>
+          <option>5–10 new conversations per week</option>
+          <option>10–20 new conversations per week</option>
+          <option>As many as possible</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>What's the first thing you say when someone replies to a message?
+          <span class="hint">This helps us train Zack's follow-up behaviour</span>
+        </label>
+        <textarea name="reply_behaviour"
+          placeholder="e.g. I usually ask them a follow-up question about their specific situation before mentioning what I do. I never pitch on first reply."></textarea>
+      </div>
+
+      <div class="field">
+        <label>What should Zack NEVER do or say?
+          <span class="hint">Hard rules — dealbreakers</span>
+        </label>
+        <textarea name="hard_rules"
+          placeholder="e.g. Never mention my company name in the first message. Never ask for a call in the first message. Never comment on competitor brands..."></textarea>
+      </div>
+    </div>
+
+    <!-- SECTION 5: Technical -->
+    <div class="card">
+      <div class="section-label">
+        <div class="section-num">5</div>
+        <div>
+          <div class="section-title">Technical Setup</div>
+          <div class="section-sub">What we need to configure your Zack installation</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="field">
+          <label>Your email address <span class="hint">*</span></label>
+          <input type="email" name="email" placeholder="you@yourdomain.com" required>
+        </div>
+        <div class="field">
+          <label>Operating System</label>
+          <select name="os">
+            <option>Windows 10 or 11</option>
+            <option>Mac (we'll discuss workarounds)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Do you have a Google account we can use for the tracking sheet?</label>
+        <select name="has_google">
+          <option>Yes — I'll share access</option>
+          <option>No — please create one for me</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Anything else we should know before we build your Zack?</label>
+        <textarea name="extra_notes"
+          placeholder="Any context about your LinkedIn presence, your network, specific people or companies to avoid, etc."></textarea>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="card">
+      <div class="submit-wrap">
+        <button type="submit" class="submit-btn">Submit My Zack.ai Onboarding</button>
+        <p class="submit-note">You'll receive a confirmation email within 2 hours.<br>Your Zack will be ready within 5 business days.</p>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- Success state -->
+  <div class="success" id="successMsg">
+    <div class="check">✅</div>
+    <h2 style="font-size:24px;font-weight:800;margin-bottom:12px;color:#0f172a">
+      Onboarding Received
+    </h2>
+    <p style="color:#64748b;font-size:16px;max-width:400px;margin:0 auto;line-height:1.6">
+      We'll review your answers and start building your Zack.
+      Expect a confirmation email shortly and your completed build within 5 business days.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  // Progress tracking
+  function updateProgress() {
+    const fields = document.querySelectorAll('input[required], textarea, select');
+    const filled = Array.from(fields).filter(f => f.value.trim().length > 0).length;
+    const pct    = Math.round((filled / fields.length) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = pct + '% complete';
+  }
+
+  document.querySelectorAll('input, textarea, select')
+    .forEach(el => el.addEventListener('input', updateProgress));
+
+  // Add more voice examples
+  let exCounts = { messageExamples: 3, postExamples: 2 };
+
+  function addExample(containerId, prefix) {
+    const container = document.getElementById(containerId);
+    exCounts[containerId]++;
+    const ta = document.createElement('textarea');
+    ta.name  = `${prefix}_${exCounts[containerId]}`;
+    ta.placeholder = 'Another example...';
+    ta.addEventListener('input', updateProgress);
+    container.appendChild(ta);
+  }
+
+  // Form submission
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('zackForm');
+    const data = new FormData(form);
+    const obj  = {};
+    data.forEach((v, k) => {
+      if (obj[k]) {
+        obj[k] = [].concat(obj[k], v);
+      } else {
+        obj[k] = v;
+      }
+    });
+
+    // In production: POST to your backend or Formspree
+    // fetch('https://formspree.io/f/YOUR_FORM_ID', {
+    //   method: 'POST',
+    //   headers: {'Content-Type': 'application/json'},
+    //   body: JSON.stringify(obj)
+    // });
+
+    // For now: download as JSON so you can read it
+    const blob = new Blob([JSON.stringify(obj, null, 2)],
+                          {type: 'application/json'});
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = `zack_onboarding_${obj.full_name || 'client'}.json`;
+    a.click();
+
+    form.style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+</script>
+</body>
+</html>
